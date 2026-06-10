@@ -1,1073 +1,972 @@
-# Changelog
+## 8.16.0 (2026-02-19)
 
-> **Tags:**
-> - :boom:       [Breaking Change]
-> - :eyeglasses: [Spec Compliance]
-> - :rocket:     [New Feature]
-> - :bug:        [Bug Fix]
-> - :memo:       [Documentation]
-> - :house:      [Internal]
-> - :nail_care:  [Polish]
+### New features
 
-> Semver Policy: https://github.com/babel/babel/tree/main/packages/babel-parser#semver
+The `sourceType` option can now be set to `"commonjs"` to have the parser treat the top level scope as a function scope.
 
-_Note: Gaps between patch versions are faulty, broken or test releases._
+Add support for Unicode 17.
 
-See the [Babel Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md) for the pre-6.8.0 version Changelog.
+### Bug fixes
 
-## 6.17.1 (2017-05-10)
+Don't recognize `await using` as contextual keywords when followed directly by a backslash.
 
-### :bug: Bug Fix
- * Fix typo in flow spread operator error (Brian Ng)
- * Fixed invalid number literal parsing ([#473](https://github.com/babel/babylon/pull/473)) (Alex Kuzmenko)
- * Fix number parser ([#433](https://github.com/babel/babylon/pull/433)) (Alex Kuzmenko)
- * Ensure non pattern shorthand props are checked for reserved words ([#479](https://github.com/babel/babylon/pull/479)) (Brian Ng)
- * Remove jsx context when parsing arrow functions ([#475](https://github.com/babel/babylon/pull/475)) (Brian Ng)
- * Allow super in class properties ([#499](https://github.com/babel/babylon/pull/499)) (Brian Ng)
- * Allow flow class field to be named constructor ([#510](https://github.com/babel/babylon/pull/510)) (Brian Ng)
+Fix an issue where the parser would allow `return` statements in `static` blocks when `allowReturnOutsideFunction` was enabled.
 
-## 6.17.0 (2017-04-20)
+Properly reject `using` declarations that appear directly in `switch` or `for` head scopes.
 
-### :bug: Bug Fix
- * Cherry-pick #418 to 6.x ([#476](https://github.com/babel/babylon/pull/476)) (Sebastian McKenzie)
- * Add support for invalid escapes in tagged templates ([#274](https://github.com/babel/babylon/pull/274)) (Kevin Gibbons)
- * Throw error if new.target is used outside of a function ([#402](https://github.com/babel/babylon/pull/402)) (Brian Ng)
- * Fix parsing of class properties ([#351](https://github.com/babel/babylon/pull/351)) (Kevin Gibbons)
- * Fix parsing yield with dynamicImport ([#383](https://github.com/babel/babylon/pull/383)) (Brian Ng)
- * Ensure consistent start args for parseParenItem ([#386](https://github.com/babel/babylon/pull/386)) (Brian Ng)
+Fix some corner case issues in the recognition of `using` syntax.
 
-## 7.0.0-beta.8 (2017-04-04)
+## 8.15.0 (2025-06-08)
 
-### New Feature
-* Add support for flow type spread (#418) (Conrad Buck)
-* Allow statics in flow interfaces (#427) (Brian Ng)
+### New features
 
-### Bug Fix
-* Fix predicate attachment to match flow parser (#428) (Brian Ng)
-* Add extra.raw back to JSXText and JSXAttribute (#344) (Alex Rattray)
-* Fix rest parameters with array and objects (#424) (Brian Ng)
-* Fix number parser (#433) (Alex Kuzmenko)
+Support `using` and `await using` syntax.
 
-### Docs
-* Fix CONTRIBUTING.md [skip ci] (#432) (Alex Kuzmenko)
+The `AnyNode` type is now defined in such a way that plugins can extend it.
 
-### Internal
-* Use babel-register script when running babel smoke tests (#442) (Brian Ng)
+### Bug fixes
 
-## 7.0.0-beta.7 (2017-03-22)
+Fix an issue where the `bigint` property of literal nodes for non-decimal bigints had the wrong format.
 
-### Spec Compliance
-* Remove babylon plugin for template revision since it's stage-4 (#426) (Henry Zhu)
+The `acorn` CLI tool no longer crashes when emitting a tree that contains a bigint.
 
-### Bug Fix
+## 8.14.1 (2025-03-05)
 
-* Fix push-pop logic in flow (#405) (Daniel Tschinder)
+### Bug fixes
 
-## 7.0.0-beta.6 (2017-03-21)
+Fix an issue where `await` expressions in class field initializers were inappropriately allowed.
 
-### New Feature
-* Add support for invalid escapes in tagged templates (#274) (Kevin Gibbons)
+Properly allow await inside an async arrow function inside a class field initializer.
 
-### Polish
-* Improves error message when super is called outside of constructor (#408) (Arshabh Kumar Agarwal)
+Mention the source file name in syntax error messages when given.
 
-### Docs
+Properly add an empty `attributes` property to every form of `ExportNamedDeclaration`.
 
-* [7.0] Moved value field in spec from ObjectMember to ObjectProperty as ObjectMethod's don't have it (#415) [skip ci] (James Browning)
+## 8.14.0 (2024-10-27)
 
-## 7.0.0-beta.5 (2017-03-21)
+### New features
 
-### Bug Fix
-* Throw error if new.target is used outside of a function (#402) (Brian Ng)
-* Fix parsing of class properties (#351) (Kevin Gibbons)
+Support ES2025 import attributes.
 
-### Other
- * Test runner: Detect extra property in 'actual' but not in 'expected'. (#407) (Andy)
- * Optimize travis builds (#419) (Daniel Tschinder)
- * Update codecov to 2.0 (#412) (Daniel Tschinder)
- * Fix spec for ClassMethod: It doesn't have a function, it *is* a function. (#406) [skip ci] (Andy)
- * Changed Non-existent RestPattern to RestElement which is what is actually parsed (#409) [skip ci] (James Browning)
- * Upgrade flow to 0.41 (Daniel Tschinder)
- * Fix watch command (#403) (Brian Ng)
- * Update yarn lock (Daniel Tschinder)
- * Fix watch command (#403) (Brian Ng)
- * chore(package): update flow-bin to version 0.41.0 (#395) (greenkeeper[bot])
- * Add estree test for correct order of directives (Daniel Tschinder)
- * Add DoExpression to spec (#364) (Alex Kuzmenko)
- * Mention cloning of repository in CONTRIBUTING.md (#391) [skip ci] (Sumedh Nimkarde)
- * Explain how to run only one test (#389) [skip ci] (Aaron Ang)
+Support ES2025 RegExp modifiers.
 
- ## 7.0.0-beta.4 (2017-03-01)
+### Bug fixes
 
-* Don't consume async when checking for async func decl (#377) (Brian Ng)
-* add `ranges` option [skip ci] (Henry Zhu)
-* Don't parse class properties without initializers when classProperties is disabled and Flow is enabled (#300) (Andrew Levine)
+Support some missing Unicode properties.
 
-## 7.0.0-beta.3 (2017-02-28)
+## 8.13.0 (2024-10-16)
 
-- [7.0] Change RestProperty/SpreadProperty to RestElement/SpreadElement (#384)
-- Merge changes from 6.x
+### New features
 
-## 7.0.0-beta.2 (2017-02-20)
+Upgrade to Unicode 16.0.
 
-- estree: correctly change literals in all cases (#368) (Daniel Tschinder)
+## 8.12.1 (2024-07-03)
 
-## 7.0.0-beta.1 (2017-02-20)
+### Bug fixes
 
-- Fix negative number literal typeannotations (#366) (Daniel Tschinder)
-- Update contributing with more test info [skip ci] (#355) (Brian Ng)
+Fix a regression that caused Acorn to no longer run on Node versions <8.10.
 
-## 7.0.0-beta.0 (2017-02-15)
+## 8.12.0 (2024-06-14)
 
-- Reintroduce Variance node (#333) (Daniel Tschinder)
-- Rename NumericLiteralTypeAnnotation to NumberLiteralTypeAnnotation (#332) (Charles Pick)
-- [7.0] Remove ForAwaitStatement, add await flag to ForOfStatement (#349) (Brandon Dail)
-- chore(package): update ava to version 0.18.0 (#345) (greenkeeper[bot])
-- chore(package): update babel-plugin-istanbul to version 4.0.0 (#350) (greenkeeper[bot])
-- Change location of ObjectTypeIndexer to match flow (#228) (Daniel Tschinder)
-- Rename flow AST Type ExistentialTypeParam to ExistsTypeAnnotation (#322) (Toru Kobayashi)
-- Revert "Temporary rollback for erroring on trailing comma with spread (#154)" (#290) (Daniel Tschinder)
-- Remove classConstructorCall plugin (#291) (Brian Ng)
-- Update yarn.lock (Daniel Tschinder)
-- Update cross-env to 3.x (Daniel Tschinder)
-- [7.0] Remove node 0.10, 0.12 and 5 from Travis (#284) (Sergey Rubanov)
-- Remove `String.fromCodePoint` shim (#279) (Mathias Bynens)
+### New features
 
-## 6.16.1 (2017-02-23)
+Support ES2025 duplicate capture group names in regular expressions.
 
-### :bug: Regression
+### Bug fixes
 
-- Revert "Fix export default async function to be FunctionDeclaration" ([#375](https://github.com/babel/babylon/pull/375))
+Include `VariableDeclarator` in the `AnyNode` type so that walker objects can refer to it without getting a type error.
 
-Need to modify Babel for this AST node change, so moving to 7.0.
+Properly raise a parse error for invalid `for`/`of` statements using `async` as binding name.
 
-- Revert "Don't parse class properties without initializers when classProperties plugin is disabled, and Flow is enabled" ([#376](https://github.com/babel/babylon/pull/376))
+Properly recognize \"use strict\" when preceded by a string with an escaped newline.
 
-[react-native](https://github.com/facebook/react-native/issues/12542) broke with this so we reverted.
+Mark the `Parser` constructor as protected, not private, so plugins can extend it without type errors.
 
-## 6.16.0 (2017-02-23)
+Fix a bug where some invalid `delete` expressions were let through when the operand was parenthesized and `preserveParens` was enabled.
 
-### :rocket: New Feature
+Properly normalize line endings in raw strings of invalid template tokens.
 
-***ESTree*** compatibility as plugin ([#277](https://github.com/babel/babylon/pull/277)) (Daniel Tschinder)
+Properly track line numbers for escaped newlines in strings.
 
-We finally introduce a new compatibility layer for ESTree. To put babylon into ESTree-compatible mode the new plugin `estree` can be enabled. In this mode the parser will output an AST that is compliant to the specs of [ESTree](https://github.com/estree/estree/)
+Fix a bug that broke line number accounting after a template literal with invalid escape sequences.
 
-We highly recommend everyone who uses babylon outside of babel to use this plugin. This will make it much easier for users to switch between different ESTree-compatible parsers. We so far tested several projects with different parsers and exchanged their parser to babylon and in nearly all cases it worked out of the box. Some other estree-compatible parsers include `acorn`, `esprima`, `espree`, `flow-parser`, etc.
+## 8.11.3 (2023-12-29)
 
-To enable `estree` mode simply add the plugin in the config:
-```json
-{
-  "plugins": [ "estree" ]
-}
-```
+### Bug fixes
 
-If you want to migrate your project from non-ESTree mode to ESTree, have a look at our [Readme](https://github.com/babel/babylon/#output), where all deviations are mentioned.
+Add `Function` and `Class` to the `AggregateType` type, so that they can be used in walkers without raising a type error.
 
-Add a parseExpression public method ([#213](https://github.com/babel/babylon/pull/213)) (jeromew)
+Make sure `onToken` get an `import` keyword token when parsing `import.meta`.
 
-Babylon exports a new function to parse a single expression
+Fix a bug where `.loc.start` could be undefined for `new.target` `meta` nodes.
 
-```js
-import { parseExpression } from 'babylon';
+## 8.11.2 (2023-10-27)
 
-const ast = parseExpression('x || y && z', options);
-```
+### Bug fixes
 
-The returned AST will only consist of the expression. The options are the same as for `parse()`
+Fix a bug that caused regular expressions after colon tokens to not be properly tokenized in some circumstances.
 
-Add startLine option ([#346](https://github.com/babel/babylon/pull/346)) (Raphael Mu)
+## 8.11.1 (2023-10-26)
 
-A new option was added to babylon allowing to change the initial linenumber for the first line which is usually `1`.
-Changing this for example to `100` will make line `1` of the input source to be marked as line `100`, line `2` as `101`, line `3` as `102`, ...
+### Bug fixes
 
-Function predicate declaration ([#103](https://github.com/babel/babylon/pull/103)) (Panagiotis Vekris)
+Fix a regression where `onToken` would receive 'name' tokens for 'new' keyword tokens.
 
-Added support for function predicates which flow introduced in version 0.33.0
+## 8.11.0 (2023-10-26)
 
-```js
-declare function is_number(x: mixed): boolean %checks(typeof x === "number");
-```
+### Bug fixes
 
-Allow imports in declare module ([#315](https://github.com/babel/babylon/pull/315)) (Daniel Tschinder)
+Fix an issue where tokenizing (without parsing) an object literal with a property named `class` or `function` could, in some circumstance, put the tokenizer into an invalid state.
 
-Added support for imports within module declarations which flow introduced in version 0.37.0
+Fix an issue where a slash after a call to a propery named the same as some keywords would be tokenized as a regular expression.
 
-```js
-declare module "C" {
-  import type { DT } from "D";
-  declare export type CT = { D: DT };
-}
-```
+### New features
 
-### :eyeglasses: Spec Compliance
+Upgrade to Unicode 15.1.
 
-Forbid semicolons after decorators in classes ([#352](https://github.com/babel/babylon/pull/352)) (Kevin Gibbons)
+Use a set of new, much more precise, TypeScript types.
 
-This example now correctly throws an error when there is a semicolon after the decorator:
+## 8.10.0 (2023-07-05)
 
-```js
-class A {
-@a;
-foo(){}
-}
-```
+### New features
 
-Keywords are not allowed as local specifier ([#307](https://github.com/babel/babylon/pull/307)) (Daniel Tschinder)
+Add a `checkPrivateFields` option that disables strict checking of private property use.
 
-Using keywords in imports is not allowed anymore:
+## 8.9.0 (2023-06-16)
 
-```js
-import { default } from "foo";
-import { a as debugger } from "foo";
-```
+### Bug fixes
 
-Do not allow overwritting of primitive types ([#314](https://github.com/babel/babylon/pull/314)) (Daniel Tschinder)
+Forbid dynamic import after `new`, even when part of a member expression.
 
-In flow it is now forbidden to overwrite the primitive types `"any"`, `"mixed"`, `"empty"`, `"bool"`, `"boolean"`, `"number"`, `"string"`, `"void"` and `"null"` with your own type declaration.
+### New features
 
-Disallow import type { type a } from … ([#305](https://github.com/babel/babylon/pull/305)) (Daniel Tschinder)
+Add Unicode properties for ES2023.
 
-The following code now correctly throws an error
+Add support for the `v` flag to regular expressions.
 
-```js
-import type { type a } from "foo";
-```
+## 8.8.2 (2023-01-23)
 
-Don't parse class properties without initializers when classProperties is disabled and Flow is enabled ([#300](https://github.com/babel/babylon/pull/300)) (Andrew Levine)
+### Bug fixes
 
-Ensure that you enable the `classProperties` plugin in order to enable correct parsing of class properties. Prior to this version it was possible to parse them by enabling the `flow` plugin but this was not intended the behaviour.
+Fix a bug that caused `allowHashBang` to be set to false when not provided, even with `ecmaVersion >= 14`.
 
-If you enable the flow plugin you can only define the type of the class properties, but not initialize them.
+Fix an exception when passing no option object to `parse` or `new Parser`.
 
-Fix export default async function to be FunctionDeclaration ([#324](https://github.com/babel/babylon/pull/324)) (Daniel Tschinder)
+Fix incorrect parse error on `if (0) let\n[astral identifier char]`.
 
-Parsing the following code now returns a `FunctionDeclaration` AST node instead of `FunctionExpression`.
+## 8.8.1 (2022-10-24)
 
-```js
-export default async function bar() {};
-```
+### Bug fixes
 
-### :nail_care: Polish
+Make type for `Comment` compatible with estree types.
 
-Improve error message on attempt to destructure named import ([#288](https://github.com/babel/babylon/pull/288)) (Brian Ng)
+## 8.8.0 (2022-07-21)
 
-### :bug: Bug Fix
+### Bug fixes
 
-Fix negative number literal typeannotations ([#366](https://github.com/babel/babylon/pull/366)) (Daniel Tschinder)
+Allow parentheses around spread args in destructuring object assignment.
 
-Ensure takeDecorators is called on exported class ([#358](https://github.com/babel/babylon/pull/358)) (Brian Ng)
+Fix an issue where the tree contained `directive` properties in when parsing with a language version that doesn't support them.
 
-ESTree: correctly change literals in all cases ([#368](https://github.com/babel/babylon/pull/368)) (Daniel Tschinder)
+### New features
 
-Correctly convert RestProperty to Assignable ([#339](https://github.com/babel/babylon/pull/339)) (Daniel Tschinder)
+Support hashbang comments by default in ECMAScript 2023 and later.
 
-Fix #321 by allowing question marks in type params ([#338](https://github.com/babel/babylon/pull/338)) (Daniel Tschinder)
+## 8.7.1 (2021-04-26)
 
-Fix #336 by correctly setting arrow-param ([#337](https://github.com/babel/babylon/pull/337)) (Daniel Tschinder)
+### Bug fixes
 
-Fix parse error when destructuring `set` with default value ([#317](https://github.com/babel/babylon/pull/317)) (Brian Ng)
+Stop handling `"use strict"` directives in ECMAScript versions before 5.
 
-Fix ObjectTypeCallProperty static ([#298](https://github.com/babel/babylon/pull/298)) (Dan Harper)
+Fix an issue where duplicate quoted export names in `export *` syntax were incorrectly checked.
 
+Add missing type for `tokTypes`.
 
-### :house: Internal
+## 8.7.0 (2021-12-27)
 
-Fix generator-method-with-computed-name spec ([#360](https://github.com/babel/babylon/pull/360)) (Alex Rattray)
+### New features
 
-Fix flow type-parameter-declaration test with unintended semantic ([#361](https://github.com/babel/babylon/pull/361)) (Alex Rattray)
+Support quoted export names.
 
-Cleanup and splitup parser functions ([#295](https://github.com/babel/babylon/pull/295)) (Daniel Tschinder)
+Upgrade to Unicode 14.
 
-chore(package): update flow-bin to version 0.38.0 ([#313](https://github.com/babel/babylon/pull/313)) (greenkeeper[bot])
+Add support for Unicode 13 properties in regular expressions.
 
-Call inner function instead of 1:1 copy to plugin ([#294](https://github.com/babel/babylon/pull/294)) (Daniel Tschinder)
+### Bug fixes
 
-Update eslint-config-babel to the latest version 🚀 ([#299](https://github.com/babel/babylon/pull/299)) (greenkeeper[bot])
+Use a loop to find line breaks, because the existing regexp search would overrun the end of the searched range and waste a lot of time in minified code.
 
-Update eslint-config-babel to the latest version 🚀 ([#293](https://github.com/babel/babylon/pull/293)) (greenkeeper[bot])
+## 8.6.0 (2021-11-18)
 
-devDeps: remove eslint-plugin-babel ([#292](https://github.com/babel/babylon/pull/292)) (Kai Cataldo)
+### Bug fixes
 
-Correct indent eslint rule config ([#276](https://github.com/babel/babylon/pull/276)) (Daniel Tschinder)
+Fix a bug where an object literal with multiple `__proto__` properties would incorrectly be accepted if a later property value held an assigment.
 
-Fail tests that have expected.json and throws-option ([#285](https://github.com/babel/babylon/pull/285)) (Daniel Tschinder)
+### New features
 
-### :memo: Documentation
+Support class private fields with the `in` operator.
 
-Update contributing with more test info [skip ci] ([#355](https://github.com/babel/babylon/pull/355)) (Brian Ng)
+## 8.5.0 (2021-09-06)
 
-Update API documentation ([#330](https://github.com/babel/babylon/pull/330)) (Timothy Gu)
+### Bug fixes
 
-Added keywords to package.json ([#323](https://github.com/babel/babylon/pull/323)) (Dmytro)
+Improve context-dependent tokenization in a number of corner cases.
 
-AST spec: fix casing of `RegExpLiteral` ([#318](https://github.com/babel/babylon/pull/318)) (Mathias Bynens)
+Fix location tracking after a 0x2028 or 0x2029 character in a string literal (which before did not increase the line number).
 
-## 6.15.0 (2017-01-10)
+Fix an issue where arrow function bodies in for loop context would inappropriately consume `in` operators.
 
-### :eyeglasses: Spec Compliance
+Fix wrong end locations stored on SequenceExpression nodes.
 
-Add support for Flow shorthand import type ([#267](https://github.com/babel/babylon/pull/267)) (Jeff Morrison)
+Implement restriction that `for`/`of` loop LHS can't start with `let`.
 
-This change implements flows new shorthand import syntax
-and where previously you had to write this code:
+### New features
 
-```js
-import {someValue} from "blah";
-import type {someType} from "blah";
-import typeof {someOtherValue} from "blah";
-```
+Add support for ES2022 class static blocks.
 
-you can now write it like this:
+Allow multiple input files to be passed to the CLI tool.
 
-```js
-import {
-  someValue,
-  type someType,
-  typeof someOtherValue,
-} from "blah";
-```
+## 8.4.1 (2021-06-24)
 
-For more information look at [this](https://github.com/facebook/flow/pull/2890) pull request.
+### Bug fixes
 
-flow: allow leading pipes in all positions ([#256](https://github.com/babel/babylon/pull/256)) (Vladimir Kurchatkin)
+Fix a bug where `allowAwaitOutsideFunction` would allow `await` in class field initializers, and setting `ecmaVersion` to 13 or higher would allow top-level await in non-module sources.
 
-This change now allows a leading pipe everywhere types can be used:
-```js
-var f = (x): | 1 | 2 => 1;
-```
+## 8.4.0 (2021-06-11)
 
-Throw error when exporting non-declaration ([#241](https://github.com/babel/babylon/pull/241)) (Kai Cataldo)
+### New features
 
-Previously babylon parsed the following exports, although they are not valid:
-```js
-export typeof foo;
-export new Foo();
-export function() {};
-export for (;;);
-export while(foo);
-```
+A new option, `allowSuperOutsideMethod`, can be used to suppress the error when `super` is used in the wrong context.
 
-### :bug: Bug Fix
+## 8.3.0 (2021-05-31)
 
-Don't set inType flag when parsing property names ([#266](https://github.com/babel/babylon/pull/266)) (Vladimir Kurchatkin)
+### New features
 
-This fixes parsing of this case:
+Default `allowAwaitOutsideFunction` to true for ECMAScript 2022 an higher.
 
-```js
-const map = {
-  [age <= 17] : 'Too young'
-};
-```
+Add support for the `d` ([indices](https://github.com/tc39/proposal-regexp-match-indices)) regexp flag.
 
-Fix source location for JSXEmptyExpression nodes (fixes #248) ([#249](https://github.com/babel/babylon/pull/249)) (James Long)
+## 8.2.4 (2021-05-04)
 
-The following case produced an invalid AST
-```js
-<div>{/* foo */}</div>
-```
+### Bug fixes
 
-Use fromCodePoint to convert high value unicode entities ([#243](https://github.com/babel/babylon/pull/243)) (Ryan Duffy)
+Fix spec conformity in corner case 'for await (async of ...)'.
 
-When high value unicode entities (e.g. 💩) were used in the input source code they are now correctly encoded in the resulting AST.
+## 8.2.3 (2021-05-04)
 
-Rename folder to avoid Windows-illegal characters ([#281](https://github.com/babel/babylon/pull/281)) (Ryan Plant)
+### Bug fixes
 
-Allow this.state.clone() when parsing decorators ([#262](https://github.com/babel/babylon/pull/262)) (Alex Rattray)
+Fix an issue where the library couldn't parse 'for (async of ...)'.
 
-### :house: Internal
+Fix a bug in UTF-16 decoding that would read characters incorrectly in some circumstances.
 
-User external-helpers ([#254](https://github.com/babel/babylon/pull/254)) (Daniel Tschinder)
+## 8.2.2 (2021-04-29)
 
-Add watch script for dev ([#234](https://github.com/babel/babylon/pull/234)) (Kai Cataldo)
+### Bug fixes
 
-Freeze current plugins list for "*" option, and remove from README.md ([#245](https://github.com/babel/babylon/pull/245)) (Andrew Levine)
+Fix a bug where a class field initialized to an async arrow function wouldn't allow await inside it. Same issue existed for generator arrow functions with yield.
 
-Prepare tests for multiple fixture runners. ([#240](https://github.com/babel/babylon/pull/240)) (Daniel Tschinder)
+## 8.2.1 (2021-04-24)
 
-Add some test coverage for decorators stage-0 plugin ([#250](https://github.com/babel/babylon/pull/250)) (Andrew Levine)
+### Bug fixes
 
-Refactor tokenizer types file ([#263](https://github.com/babel/babylon/pull/263)) (Sven SAULEAU)
+Fix a regression introduced in 8.2.0 where static or async class methods with keyword names fail to parse.
 
-Update eslint-config-babel to the latest version 🚀 ([#273](https://github.com/babel/babylon/pull/273)) (greenkeeper[bot])
+## 8.2.0 (2021-04-24)
 
-chore(package): update rollup to version 0.41.0 ([#272](https://github.com/babel/babylon/pull/272)) (greenkeeper[bot])
+### New features
 
-chore(package): update flow-bin to version 0.37.0 ([#255](https://github.com/babel/babylon/pull/255)) (greenkeeper[bot])
+Add support for ES2022 class fields and private methods.
 
-## 6.14.1 (2016-11-17)
+## 8.1.1 (2021-04-12)
 
-### :bug: Bug Fix
+### Various
 
-Allow `"plugins": ["*"]` ([#229](https://github.com/babel/babylon/pull/229)) (Daniel Tschinder)
+Stop shipping source maps in the NPM package.
 
-```js
-{
-  "plugins": ["*"]
-}
-```
+## 8.1.0 (2021-03-09)
 
-Will include all parser plugins instead of specifying each one individually. Useful for tools like babel-eslint, jscodeshift, and ast-explorer.
+### Bug fixes
 
-## 6.14.0 (2016-11-16)
+Fix a spurious error in nested destructuring arrays.
 
-### :eyeglasses: Spec Compliance
+### New features
 
-Throw error for reserved words `enum` and `await` ([#195](https://github.com/babel/babylon/pull/195)) (Kai Cataldo)
+Expose `allowAwaitOutsideFunction` in CLI interface.
 
-[11.6.2.2 Future Reserved Words](http://www.ecma-international.org/ecma-262/6.0/#sec-future-reserved-words)
+Make `allowImportExportAnywhere` also apply to `import.meta`.
 
-Babylon will throw for more reserved words such as `enum` or `await` (in strict mode).
+## 8.0.5 (2021-01-25)
 
-```
-class enum {} // throws
-class await {} // throws in strict mode (module)
-```
+### Bug fixes
 
-Optional names for function types and object type indexers ([#197](https://github.com/babel/babylon/pull/197)) (Gabe Levi)
+Adjust package.json to work with Node 12.16.0 and 13.0-13.6.
 
-So where you used to have to write
+## 8.0.4 (2020-10-05)
 
-```js
-type A = (x: string, y: boolean) => number;
-type B = (z: string) => number;
-type C = { [key: string]: number };
-```
+### Bug fixes
 
-you can now write (with flow 0.34.0)
+Make `await x ** y` an error, following the spec.
 
-```js
-type A = (string, boolean) => number;
-type B = string => number;
-type C = { [string]: number };
-```
+Fix potentially exponential regular expression.
 
-Parse flow nested array type annotations like `number[][]` ([#219](https://github.com/babel/babylon/pull/219)) (Bernhard Häussner)
+## 8.0.3 (2020-10-02)
 
-Supports these form now of specifying array types:
+### Bug fixes
 
-```js
-var a: number[][][][];
-var b: string[][];
-```
+Fix a wasteful loop during `Parser` creation when setting `ecmaVersion` to `"latest"`.
 
-### :bug: Bug Fix
+## 8.0.2 (2020-09-30)
 
-Correctly eat semicolon at the end of `DelcareModuleExports` ([#223](https://github.com/babel/babylon/pull/223))  (Daniel Tschinder)
+### Bug fixes
 
-```
-declare module "foo" { declare module.exports: number }
-declare module "foo" { declare module.exports: number; }  // also allowed now
-```
+Make the TypeScript types reflect the current allowed values for `ecmaVersion`.
 
-### :house: Internal
+Fix another regexp/division tokenizer issue.
 
- * Count Babel tests towards Babylon code coverage ([#182](https://github.com/babel/babylon/pull/182)) (Moti Zilberman)
- * Fix strange line endings ([#214](https://github.com/babel/babylon/pull/214)) (Thomas Grainger)
- * Add node 7 (Daniel Tschinder)
- * chore(package): update flow-bin to version 0.34.0 ([#204](https://github.com/babel/babylon/pull/204)) (Greenkeeper)
+## 8.0.1 (2020-08-12)
 
-## v6.13.1 (2016-10-26)
+### Bug fixes
 
-### :nail_care: Polish
+Provide the correct value in the `version` export.
 
-- Use rollup for bundling to speed up startup time ([#190](https://github.com/babel/babylon/pull/190)) ([@drewml](https://github.com/DrewML))
+## 8.0.0 (2020-08-12)
 
-```js
-const babylon = require('babylon');
-const ast = babylon.parse('var foo = "lol";');
-```
+### Bug fixes
 
-With that test case, there was a ~95ms savings by removing the need for node to build/traverse the dependency graph.
+Disallow expressions like `(a = b) = c`.
 
-**Without bundling**
-![image](https://cloud.githubusercontent.com/assets/5233399/19420264/3133497e-93ad-11e6-9a6a-2da59c4f5c13.png)
+Make non-octal escape sequences a syntax error in strict mode.
 
-**With bundling**
-![image](https://cloud.githubusercontent.com/assets/5233399/19420267/388f556e-93ad-11e6-813e-7c5c396be322.png)
+### New features
 
-- add clean command [skip ci] ([#201](https://github.com/babel/babylon/pull/201)) (Henry Zhu)
-- add ForAwaitStatement (async generator already added) [skip ci] ([#196](https://github.com/babel/babylon/pull/196)) (Henry Zhu)
+The package can now be loaded directly as an ECMAScript module in node 13+.
 
-## v6.13.0 (2016-10-21)
+Update to the set of Unicode properties from ES2021.
 
-### :eyeglasses: Spec Compliance
+### Breaking changes
 
-Property variance type annotations for Flow plugin ([#161](https://github.com/babel/babylon/pull/161)) (Sam Goldman)
+The `ecmaVersion` option is now required. For the moment, omitting it will still work with a warning, but that will change in a future release.
 
-> See https://flowtype.org/docs/variance.html for more information
+Some changes to method signatures that may be used by plugins.
 
-```js
-type T = { +p: T };
-interface T { -p: T };
-declare class T { +[k:K]: V };
-class T { -[k:K]: V };
-class C2 { +p: T = e };
-```
+## 7.4.0 (2020-08-03)
 
-Raise error on duplicate definition of __proto__ ([#183](https://github.com/babel/babylon/pull/183)) (Moti Zilberman)
+### New features
 
-```js
-({ __proto__: 1, __proto__: 2 }) // Throws an error now
-```
+Add support for logical assignment operators.
 
-### :bug: Bug Fix
+Add support for numeric separators.
 
-Flow: Allow class properties to be named `static` ([#184](https://github.com/babel/babylon/pull/184)) (Moti Zilberman)
+## 7.3.1 (2020-06-11)
 
-```js
-declare class A {
-  static: T;
-}
-```
+### Bug fixes
 
-Allow "async" as identifier for object literal property shorthand ([#187](https://github.com/babel/babylon/pull/187)) (Andrew Levine)
+Make the string in the `version` export match the actual library version.
 
-```js
-var foo = { async, bar };
-```
+## 7.3.0 (2020-06-11)
 
-### :nail_care: Polish
+### Bug fixes
 
-Fix flowtype and add inType to state ([#189](https://github.com/babel/babylon/pull/189)) (Daniel Tschinder)
+Fix a bug that caused parsing of object patterns with a property named `set` that had a default value to fail.
 
-> This improves the performance slightly (because of hidden classes)
+### New features
 
-### :house: Internal
+Add support for optional chaining (`?.`).
 
-Fix .gitattributes line ending setting ([#191](https://github.com/babel/babylon/pull/191)) (Moti Zilberman)
+## 7.2.0 (2020-05-09)
 
-Increase test coverage ([#175](https://github.com/babel/babylon/pull/175) (Moti Zilberman)
+### Bug fixes
 
-Readd missin .eslinignore for IDEs (Daniel Tschinder)
+Fix precedence issue in parsing of async arrow functions.
 
-Error on missing expected.json fixture in CI ([#188](https://github.com/babel/babylon/pull/188)) (Moti Zilberman)
+### New features
 
-Add .gitattributes and .editorconfig for LF line endings ([#179](https://github.com/babel/babylon/pull/179)) (Moti Zilberman)
+Add support for nullish coalescing.
 
-Fixes two tests that are failing after the merge of #172 ([#177](https://github.com/babel/babylon/pull/177)) (Moti Zilberman)
+Add support for `import.meta`.
 
-## v6.12.0 (2016-10-14)
+Support `export * as ...` syntax.
 
-### :eyeglasses: Spec Compliance
+Upgrade to Unicode 13.
 
-Implement import() syntax ([#163](https://github.com/babel/babylon/pull/163)) (Jordan Gensler)
+## 6.4.1 (2020-03-09)
 
-#### Dynamic Import
+### Bug fixes
 
-- Proposal Repo: https://github.com/domenic/proposal-dynamic-import
-- Championed by [@domenic](https://github.com/domenic)
-- stage-2
-- [sept-28 tc39 notes](https://github.com/rwaldron/tc39-notes/blob/master/es7/2016-09/sept-28.md#113a-import)
+More carefully check for valid UTF16 surrogate pairs in regexp validator.
 
-> This repository contains a proposal for adding a "function-like" import() module loading syntactic form to JavaScript
+## 7.1.1 (2020-03-01)
 
-```js
-import(`./section-modules/${link.dataset.entryModule}.js`)
-.then(module => {
-  module.loadPageInto(main);
-})
-```
+### Bug fixes
 
-Add EmptyTypeAnnotation ([#171](https://github.com/babel/babylon/pull/171)) (Sam Goldman)
+Treat `\8` and `\9` as invalid escapes in template strings.
 
-#### EmptyTypeAnnotation
+Allow unicode escapes in property names that are keywords.
 
-Just wasn't covered before.
+Don't error on an exponential operator expression as argument to `await`.
 
-```js
-type T = empty;
-```
+More carefully check for valid UTF16 surrogate pairs in regexp validator.
 
-### :bug: Bug Fix
+## 7.1.0 (2019-09-24)
 
-Fix crash when exporting with destructuring and sparse array ([#170](https://github.com/babel/babylon/pull/170)) (Jeroen Engels)
+### Bug fixes
 
-```js
-// was failing due to sparse array
-export const { foo: [ ,, qux7 ] } = bar;
-```
+Disallow trailing object literal commas when ecmaVersion is less than 5.
 
-Allow keyword in Flow object declaration property names with type parameters ([#146](https://github.com/babel/babylon/pull/146)) (Dan Harper)
+### New features
 
-```js
-declare class X {
-  foobar<T>(): void;
-  static foobar<T>(): void;
-}
-```
+Add a static `acorn` property to the `Parser` class that contains the entire module interface, to allow plugins to access the instance of the library that they are acting on.
 
-Allow keyword in object/class property names with Flow type parameters ([#145](https://github.com/babel/babylon/pull/145)) (Dan Harper)
+## 7.0.0 (2019-08-13)
 
-```js
-class Foo {
-  delete<T>(item: T): T {
-    return item;
-  }
-}
-```
+### Breaking changes
 
-Allow typeAnnotations for yield expressions ([#174](https://github.com/babel/babylon/pull/174))) (Daniel Tschinder)
+Changes the node format for dynamic imports to use the `ImportExpression` node type, as defined in [ESTree](https://github.com/estree/estree/blob/master/es2020.md#importexpression).
 
-```js
-function *foo() {
-  const x = (yield 5: any);
-}
-```
+Makes 10 (ES2019) the default value for the `ecmaVersion` option.
 
-### :nail_care: Polish
+## 6.3.0 (2019-08-12)
 
-Annotate more errors with expected token ([#172](https://github.com/babel/babylon/pull/172))) (Moti Zilberman)
+### New features
 
-```js
-// Unexpected token, expected ; (1:6)
-{ set 1 }
-```
+`sourceType: "module"` can now be used even when `ecmaVersion` is less than 6, to parse module-style code that otherwise conforms to an older standard.
 
-### :house: Internal
+## 6.2.1 (2019-07-21)
 
-Remove kcheck ([#173](https://github.com/babel/babylon/pull/173)))  (Daniel Tschinder)
+### Bug fixes
 
-Also run flow, linting, babel tests on separate instances (add back node 0.10)
+Fix bug causing Acorn to treat some characters as identifier characters that shouldn't be treated as such.
 
-## v6.11.6 (2016-10-12)
+Fix issue where setting the `allowReserved` option to `"never"` allowed reserved words in some circumstances.
 
-### :bug: Bug Fix/Regression
+## 6.2.0 (2019-07-04)
 
-Fix crash when exporting with destructuring and sparse array ([#170](https://github.com/babel/babylon/pull/170)) (Jeroen Engels)
+### Bug fixes
 
-```js
-// was failing with `Cannot read property 'type' of null` because of null identifiers
-export const { foo: [ ,, qux7 ] } = bar;
-```
+Improve valid assignment checking in `for`/`in` and `for`/`of` loops.
 
-## v6.11.5 (2016-10-12)
+Disallow binding `let` in patterns.
 
-### :eyeglasses: Spec Compliance
+### New features
 
-Fix: Check for duplicate named exports in exported destructuring assignments ([#144](https://github.com/babel/babylon/pull/144)) (Kai Cataldo)
+Support bigint syntax with `ecmaVersion` >= 11.
 
-```js
-// `foo` has already been exported. Exported identifiers must be unique. (2:20)
-export function foo() {};
-export const { a: [{foo}] } = bar;
-```
+Support dynamic `import` syntax with `ecmaVersion` >= 11.
 
-Fix: Check for duplicate named exports in exported rest elements/properties ([#164](https://github.com/babel/babylon/pull/164)) (Kai Cataldo)
+Upgrade to Unicode version 12.
 
-```js
-// `foo` has already been exported. Exported identifiers must be unique. (2:22)
-export const foo = 1;
-export const [bar, ...foo] = baz;
-```
+## 6.1.1 (2019-02-27)
 
-### :bug: Bug Fix
+### Bug fixes
 
-Fix: Allow identifier `async` for default param in arrow expression ([#165](https://github.com/babel/babylon/pull/165)) (Kai Cataldo)
+Fix bug that caused parsing default exports of with names to fail.
 
-```js
-// this is ok now
-const test = ({async = true}) => {};
-```
+## 6.1.0 (2019-02-08)
 
-### :nail_care: Polish
+### Bug fixes
 
-Babylon will now print out the token it's expecting if there's a `SyntaxError` ([#150](https://github.com/babel/babylon/pull/150)) (Daniel Tschinder)
+Fix scope checking when redefining a `var` as a lexical binding.
 
-```bash
-# So in the case of a missing ending curly (`}`)
-Module build failed: SyntaxError: Unexpected token, expected } (30:0)
-  28 |   }
-  29 |
-> 30 |
-     | ^
-```
+### New features
 
-## v6.11.4 (2016-10-03)
+Split up `parseSubscripts` to use an internal `parseSubscript` method to make it easier to extend with plugins.
 
-Temporary rollback for erroring on trailing comma with spread (#154) (Henry Zhu)
+## 6.0.7 (2019-02-04)
 
-## v6.11.3 (2016-10-01)
+### Bug fixes
 
-### :eyeglasses: Spec Compliance
+Check that exported bindings are defined.
 
-Add static errors for object rest (#149) ([@danez](https://github.com/danez))
+Don't treat `\u180e` as a whitespace character.
 
-> https://github.com/sebmarkbage/ecmascript-rest-spread
+Check for duplicate parameter names in methods.
 
-Object rest copies the *rest* of properties from the right hand side `obj` starting from the left to right.
+Don't allow shorthand properties when they are generators or async methods.
 
-```js
-let { x, y, ...z } =  { x: 1, y: 2, z: 3 };
-// x = 1
-// y = 2
-// z = { z: 3 }
-```
+Forbid binding `await` in async arrow function's parameter list.
 
-#### New Syntax Errors:
+## 6.0.6 (2019-01-30)
 
-**SyntaxError**: The rest element has to be the last element when destructuring (1:10)
-```bash
-> 1 | let { ...x, y, z } = { x: 1, y: 2, z: 3};
-    |           ^
-# Previous behavior:
-# x = { x: 1, y: 2, z: 3 }
-# y = 2
-# z = 3
-```
+### Bug fixes
 
-Before, this was just a more verbose way of shallow copying `obj` since it doesn't actually do what you think.
+The content of class declarations and expressions is now always parsed in strict mode.
 
-**SyntaxError**: Cannot have multiple rest elements when destructuring (1:13)
+Don't allow `let` or `const` to bind the variable name `let`.
 
-```bash
-> 1 | let { x, ...y, ...z } = { x: 1, y: 2, z: 3};
-    |              ^
-# Previous behavior:
-# x = 1
-# y = { y: 2, z: 3 }
-# z = { y: 2, z: 3 }
-```
+Treat class declarations as lexical.
 
-Before y and z would just be the same value anyway so there is no reason to need to have both.
+Don't allow a generator function declaration as the sole body of an `if` or `else`.
 
-**SyntaxError**: A trailing comma is not permitted after the rest element (1:16)
+Ignore `"use strict"` when after an empty statement.
 
-```js
-let { x, y, ...z, } = obj;
-```
+Allow string line continuations with special line terminator characters.
 
-The rationale for this is that the use case for trailing comma is that you can add something at the end without affecting the line above. Since a RestProperty always has to be the last property it doesn't make sense.
+Treat `for` bodies as part of the `for` scope when checking for conflicting bindings.
 
----
+Fix bug with parsing `yield` in a `for` loop initializer.
 
-get / set are valid property names in default assignment (#142) ([@jezell](https://github.com/jezell))
+Implement special cases around scope checking for functions.
 
-```js
-// valid
-function something({ set = null, get = null }) {}
-```
+## 6.0.5 (2019-01-02)
 
-## v6.11.2 (2016-09-23)
+### Bug fixes
 
-### Bug Fix
+Fix TypeScript type for `Parser.extend` and add `allowAwaitOutsideFunction` to options type.
 
-- [#139](https://github.com/babel/babylon/issues/139) Don't do the duplicate check if not an identifier (#140) @hzoo
+Don't treat `let` as a keyword when the next token is `{` on the next line.
 
-```js
-// regression with duplicate export check
-SyntaxError: ./typography.js: `undefined` has already been exported. Exported identifiers must be unique. (22:13)
-  20 |
-  21 | export const { rhythm } = typography;
-> 22 | export const { TypographyStyle } = typography
-```
+Fix bug that broke checking for parentheses around an object pattern in a destructuring assignment when `preserveParens` was on.
 
-Bail out for now, and make a change to account for destructuring in the next release.
+## 6.0.4 (2018-11-05)
 
-## 6.11.1 (2016-09-22)
+### Bug fixes
 
-### Bug Fix
-- [#137](https://github.com/babel/babylon/pull/137) - Fix a regression with duplicate exports - it was erroring on all keys in `Object.prototype`. @danez
+Further improvements to tokenizing regular expressions in corner cases.
 
-```javascript
-export toString from './toString';
-```
+## 6.0.3 (2018-11-04)
 
-```bash
-`toString` has already been exported. Exported identifiers must be unique. (1:7)
-> 1 | export toString from './toString';
-    |        ^
-  2 |
-```
+### Bug fixes
 
-## 6.11.0 (2016-09-22)
+Fix bug in tokenizing an expression-less return followed by a function followed by a regular expression.
 
-### Spec Compliance (will break CI)
+Remove stray symlink in the package tarball.
 
-- Disallow duplicate named exports ([#107](https://github.com/babel/babylon/pull/107)) @kaicataldo
+## 6.0.2 (2018-09-26)
 
-```js
-// Only one default export allowed per module. (2:9)
-export default function() {};
-export { foo as default };
+### Bug fixes
 
-// Only one default export allowed per module. (2:0)
-export default {};
-export default function() {};
+Fix bug where default expressions could fail to parse inside an object destructuring assignment expression.
 
-// `Foo` has already been exported. Exported identifiers must be unique. (2:0)
-export { Foo };
-export class Foo {};
-```
+## 6.0.1 (2018-09-14)
 
-### New Feature (Syntax)
+### Bug fixes
 
-- Add support for computed class property names ([#121](https://github.com/babel/babylon/pull/121)) @motiz88
+Fix wrong value in `version` export.
 
-```js
-// AST
-interface ClassProperty <: Node {
-  type: "ClassProperty";
-  key: Identifier;
-  value: Expression;
-  computed: boolean; // added
-}
-```
+## 6.0.0 (2018-09-14)
 
-```js
-// with "plugins": ["classProperties"]
-class Foo {
-  [x]
-  ['y']
-}
+### Bug fixes
 
-class Bar {
-  [p]
-  [m] () {}
-}
- ```
+Better handle variable-redefinition checks for catch bindings and functions directly under if statements.
 
-### Bug Fix
+Forbid `new.target` in top-level arrow functions.
 
-- Fix `static` property falling through in the declare class Flow AST ([#135](https://github.com/babel/babylon/pull/135)) @danharper
+Fix issue with parsing a regexp after `yield` in some contexts.
 
-```js
-declare class X {
-    a: number;
-    static b: number; // static
-    c: number; // this was being marked as static in the AST as well
-}
-```
+### New features
 
-### Polish
+The package now comes with TypeScript definitions.
 
-- Rephrase "assigning/binding to rvalue" errors to include context ([#119](https://github.com/babel/babylon/pull/119)) @motiz88
+### Breaking changes
 
-```js
-// Used to error with:
-// SyntaxError: Assigning to rvalue (1:0)
+The default value of the `ecmaVersion` option is now 9 (2018).
 
-// Now:
-// Invalid left-hand side in assignment expression (1:0)
-3 = 4
+Plugins work differently, and will have to be rewritten to work with this version.
 
-// Invalid left-hand side in for-in statement (1:5)
-for (+i in {});
-```
+The loose parser and walker have been moved into separate packages (`acorn-loose` and `acorn-walk`).
 
-### Internal
+## 5.7.3 (2018-09-10)
 
-- Fix call to `this.parseMaybeAssign` with correct arguments ([#133](https://github.com/babel/babylon/pull/133)) @danez
-- Add semver note to changelog ([#131](https://github.com/babel/babylon/pull/131)) @hzoo
+### Bug fixes
 
-## 6.10.0 (2016-09-19)
+Fix failure to tokenize regexps after expressions like `x.of`.
 
-> We plan to include some spec compliance bugs in patch versions. An example was the multiple default exports issue.
+Better error message for unterminated template literals.
 
-### Spec Compliance
+## 5.7.2 (2018-08-24)
 
-* Implement ES2016 check for simple parameter list in strict mode ([#106](https://github.com/babel/babylon/pull/106)) (Timothy Gu)
+### Bug fixes
 
-> It is a Syntax Error if ContainsUseStrict of FunctionBody is true and IsSimpleParameterList of FormalParameters is false. https://tc39.github.io/ecma262/2016/#sec-function-definitions-static-semantics-early-errors
+Properly handle `allowAwaitOutsideFunction` in for statements.
 
-More Context: [tc39-notes](https://github.com/rwaldron/tc39-notes/blob/master/es7/2015-07/july-29.md#611-the-scope-of-use-strict-with-respect-to-destructuring-in-parameter-lists)
+Treat function declarations at the top level of modules like let bindings.
 
-For example:
+Don't allow async function declarations as the only statement under a label.
 
-```js
-// this errors because it uses destructuring and default parameters
-// in a function with a "use strict" directive
-function a([ option1, option2 ] = []) {
-  "use strict";
-}
- ```
+## 5.7.0 (2018-06-15)
 
-The solution would be to use a top level "use strict" or to remove the destructuring or default parameters when using a function + "use strict" or to.
+### New features
 
-### New Feature
+Upgraded to Unicode 11.
 
-* Exact object type annotations for Flow plugin ([#104](https://github.com/babel/babylon/pull/104)) (Basil Hosmer)
+## 5.6.0 (2018-05-31)
 
-Added to flow in https://github.com/facebook/flow/commit/c710c40aa2a115435098d6c0dfeaadb023cd39b8
+### New features
 
-Looks like:
+Allow U+2028 and U+2029 in string when ECMAVersion >= 10.
 
-```js
-var a : {| x: number, y: string |} = { x: 0, y: 'foo' };
-```
+Allow binding-less catch statements when ECMAVersion >= 10.
 
-### Bug Fixes
+Add `allowAwaitOutsideFunction` option for parsing top-level `await`.
 
-* Include `typeParameter` location in `ArrowFunctionExpression` ([#126](https://github.com/babel/babylon/pull/126)) (Daniel Tschinder)
-* Error on invalid flow type annotation with default assignment ([#122](https://github.com/babel/babylon/pull/122)) (Dan Harper)
-* Fix Flow return types on arrow functions ([#124](https://github.com/babel/babylon/pull/124)) (Dan Harper)
+## 5.5.3 (2018-03-08)
 
-### Misc
+### Bug fixes
 
-* Add tests for export extensions ([#127](https://github.com/babel/babylon/pull/127)) (Daniel Tschinder)
-* Fix Contributing guidelines [skip ci] (Daniel Tschinder)
+A _second_ republish of the code in 5.5.1, this time with yarn, to hopefully get valid timestamps.
 
-## 6.9.2 (2016-09-09)
+## 5.5.2 (2018-03-08)
 
-The only change is to remove the `babel-runtime` dependency by compiling with Babel's ES2015 loose mode. So using babylon standalone should be smaller.
+### Bug fixes
 
-## 6.9.1 (2016-08-23)
+A republish of the code in 5.5.1 in an attempt to solve an issue with the file timestamps in the npm package being 0.
 
-This release contains mainly small bugfixes but also updates babylons default mode to es2017. The features for `exponentiationOperator`, `asyncFunctions` and `trailingFunctionCommas` which previously needed to be activated via plugin are now enabled by default and the plugins are now no-ops.
+## 5.5.1 (2018-03-06)
 
-### Bug Fixes
+### Bug fixes
 
-- Fix issues with default object params in async functions ([#96](https://github.com/babel/babylon/pull/96)) @danez
-- Fix issues with flow-types and async function ([#95](https://github.com/babel/babylon/pull/95)) @danez
-- Fix arrow functions with destructuring, types & default value ([#94](https://github.com/babel/babylon/pull/94)) @danharper
-- Fix declare class with qualified type identifier ([#97](https://github.com/babel/babylon/pull/97)) @danez
-- Remove exponentiationOperator, asyncFunctions, trailingFunctionCommas plugins and enable them by default ([#98](https://github.com/babel/babylon/pull/98)) @danez
+Fix misleading error message for octal escapes in template strings.
 
-## 6.9.0 (2016-08-16)
+## 5.5.0 (2018-02-27)
 
-### New syntax support
+### New features
 
-- Add JSX spread children ([#42](https://github.com/babel/babylon/pull/42)) @calebmer
+The identifier character categorization is now based on Unicode version 10.
 
-(Be aware that React is not going to support this syntax)
+Acorn will now validate the content of regular expressions, including new ES9 features.
 
-```js
-<div>
-  {...todos.map(todo => <Todo key={todo.id} todo={todo}/>)}
-</div>
-```
+## 5.4.0 (2018-02-01)
 
-- Add support for declare module.exports ([#72](https://github.com/babel/babylon/pull/72)) @danez
+### Bug fixes
 
-```js
-declare module "foo" {
-  declare module.exports: {}
-}
-```
+Disallow duplicate or escaped flags on regular expressions.
 
-### New Features
+Disallow octal escapes in strings in strict mode.
 
-- If supplied, attach filename property to comment node loc. ([#80](https://github.com/babel/babylon/pull/80)) @divmain
-- Add identifier name to node loc field ([#90](https://github.com/babel/babylon/pull/90)) @kittens
+### New features
 
-### Bug Fixes
+Add support for async iteration.
 
-- Fix exponential operator to behave according to spec ([#75](https://github.com/babel/babylon/pull/75)) @danez
-- Fix lookahead to not add comments to arrays which are not cloned ([#76](https://github.com/babel/babylon/pull/76)) @danez
-- Fix accidental fall-through in Flow type parsing. ([#82](https://github.com/babel/babylon/pull/82)) @xiemaisi
-- Only allow declares inside declare module ([#73](https://github.com/babel/babylon/pull/73)) @danez
-- Small fix for parsing type parameter declarations ([#83](https://github.com/babel/babylon/pull/83)) @gabelevi
-- Fix arrow param locations with flow types ([#57](https://github.com/babel/babylon/pull/57)) @danez
-- Fixes SyntaxError position with flow optional type ([#65](https://github.com/babel/babylon/pull/65)) @danez
+Add support for object spread and rest.
 
-### Internal
+## 5.3.0 (2017-12-28)
 
-- Add codecoverage to tests @danez
-- Fix tests to not save expected output if we expect the test to fail @danez
-- Make a shallow clone of babel for testing @danez
-- chore(package): update cross-env to version 2.0.0 ([#77](https://github.com/babel/babylon/pull/77)) @greenkeeperio-bot
-- chore(package): update ava to version 0.16.0 ([#86](https://github.com/babel/babylon/pull/86)) @greenkeeperio-bot
-- chore(package): update babel-plugin-istanbul to version 2.0.0 ([#89](https://github.com/babel/babylon/pull/89)) @greenkeeperio-bot
-- chore(package): update nyc to version 8.0.0 ([#88](https://github.com/babel/babylon/pull/88)) @greenkeeperio-bot
+### Bug fixes
 
-## 6.8.4 (2016-07-06)
+Fix parsing of floating point literals with leading zeroes in loose mode.
 
-### Bug Fixes
+Allow duplicate property names in object patterns.
 
-- Fix the location of params, when flow and default value used ([#68](https://github.com/babel/babylon/pull/68)) @danez
+Don't allow static class methods named `prototype`.
 
-## 6.8.3 (2016-07-02)
+Disallow async functions directly under `if` or `else`.
 
-### Bug Fixes
+Parse right-hand-side of `for`/`of` as an assignment expression.
 
-- Fix performance regression introduced in 6.8.2 with conditionals ([#63](https://github.com/babel/babylon/pull/63)) @danez
+Stricter parsing of `for`/`in`.
 
-## 6.8.2 (2016-06-24)
+Don't allow unicode escapes in contextual keywords.
 
-### Bug Fixes
+### New features
 
-- Fix parse error with yielding jsx elements in generators `function* it() { yield <a></a>; }` ([#31](https://github.com/babel/babylon/pull/31)) @eldereal
-- When cloning nodes do not clone its comments ([#24](https://github.com/babel/babylon/pull/24)) @danez
-- Fix parse errors when using arrow functions with an spread element and return type `(...props): void => {}` ([#10](https://github.com/babel/babylon/pull/10)) @danez
-- Fix leading comments added from previous node ([#23](https://github.com/babel/babylon/pull/23)) @danez
-- Fix parse errors with flow's optional arguments `(arg?) => {}` ([#19](https://github.com/babel/babylon/pull/19)) @danez
-- Support negative numeric type literals @kittens
-- Remove line terminator restriction after await keyword @kittens
-- Remove grouped type arrow restriction as it seems flow no longer has it @kittens
-- Fix parse error with generic methods that have the name `get` or `set` `class foo { get() {} }` ([#55](https://github.com/babel/babylon/pull/55)) @vkurchatkin
-- Fix parse error with arrow functions that have flow type parameter declarations `<T>(x: T): T => x;` ([#54](https://github.com/babel/babylon/pull/54)) @gabelevi
+Parsing class members was factored into smaller methods to allow plugins to hook into it.
 
-### Documentation
+## 5.2.1 (2017-10-30)
 
-- Document AST differences from ESTree ([#41](https://github.com/babel/babylon/pull/41)) @nene
-- Move ast spec from babel/babel ([#46](https://github.com/babel/babylon/pull/46)) @hzoo
+### Bug fixes
 
-### Internal
+Fix a token context corruption bug.
 
-- Enable skipped tests ([#16](https://github.com/babel/babylon/pull/16)) @danez
-- Add script to test latest version of babylon with babel ([#21](https://github.com/babel/babylon/pull/21)) @danez
-- Upgrade test runner ava @kittens
-- Add missing generate-identifier-regex script @kittens
-- Rename parser context types @kittens
-- Add node v6 to travis testing @hzoo
-- Update to Unicode v9 ([#45](https://github.com/babel/babylon/pull/45)) @mathiasbynens
+## 5.2.0 (2017-10-30)
 
-## 6.8.1 (2016-06-06)
+### Bug fixes
 
-### New Feature
+Fix token context tracking for `class` and `function` in property-name position.
 
-- Parse type parameter declarations with defaults like `type Foo<T = string> = T`
+Make sure `%*` isn't parsed as a valid operator.
 
-### Bug Fixes
-- Type parameter declarations need 1 or more type parameters.
-- The existential type `*` is not a valid type parameter.
-- The existential type `*` is a primary type
+Allow shorthand properties `get` and `set` to be followed by default values.
 
-### Spec Compliance
-- The param list for type parameter declarations now consists of `TypeParameter` nodes
-- New `TypeParameter` AST Node (replaces using the `Identifier` node before)
+Disallow `super` when not in callee or object position.
 
-```
-interface TypeParameter <: Node {
-  bound: TypeAnnotation;
-  default: TypeAnnotation;
-  name: string;
-  variance: "plus" | "minus";
-}
-```
+### New features
 
-## 6.8.0 (2016-05-02)
+Support [`directive` property](https://github.com/estree/estree/compare/b3de58c9997504d6fba04b72f76e6dd1619ee4eb...1da8e603237144f44710360f8feb7a9977e905e0) on directive expression statements.
 
-#### New Feature
+## 5.1.2 (2017-09-04)
 
-##### Parse Method Parameter Decorators ([#12](https://github.com/babel/babylon/pull/12))
+### Bug fixes
 
-> [Method Parameter Decorators](https://goo.gl/8MmCMG) is now a TC39 [stage 0 proposal](https://github.com/tc39/ecma262/blob/master/stage0.md).
+Disable parsing of legacy HTML-style comments in modules.
 
-Examples:
+Fix parsing of async methods whose names are keywords.
 
-```js
-class Foo {
-  constructor(@foo() x, @bar({ a: 123 }) @baz() y) {}
-}
+## 5.1.1 (2017-07-06)
 
-export default function func(@foo() x, @bar({ a: 123 }) @baz() y) {}
+### Bug fixes
 
-var obj = {
-  method(@foo() x, @bar({ a: 123 }) @baz() y) {}
-};
-```
+Fix problem with disambiguating regexp and division after a class.
 
-##### Parse for-await statements (w/ `asyncGenerators` plugin) ([#17](https://github.com/babel/babylon/pull/17))
+## 5.1.0 (2017-07-05)
 
-There is also a new node type, `ForAwaitStatement`.
+### Bug fixes
 
-> [Async generators and for-await](https://github.com/tc39/proposal-async-iteration) are now a [stage 2 proposal](https://github.com/tc39/ecma262#current-proposals).
+Fix tokenizing of regexps in an object-desctructuring `for`/`of` loop and after `yield`.
 
-Example:
+Parse zero-prefixed numbers with non-octal digits as decimal.
 
-```js
-async function f() {
-  for await (let x of y);
-}
-```
+Allow object/array patterns in rest parameters.
+
+Don't error when `yield` is used as a property name.
+
+Allow `async` as a shorthand object property.
+
+### New features
+
+Implement the [template literal revision proposal](https://github.com/tc39/proposal-template-literal-revision) for ES9.
+
+## 5.0.3 (2017-04-01)
+
+### Bug fixes
+
+Fix spurious duplicate variable definition errors for named functions.
+
+## 5.0.2 (2017-03-30)
+
+### Bug fixes
+
+A binary operator after a parenthesized arrow expression is no longer incorrectly treated as an error.
+
+## 5.0.0 (2017-03-28)
+
+### Bug fixes
+
+Raise an error for duplicated lexical bindings.
+
+Fix spurious error when an assignement expression occurred after a spread expression.
+
+Accept regular expressions after `of` (in `for`/`of`), `yield` (in a generator), and braced arrow functions.
+
+Allow labels in front or `var` declarations, even in strict mode.
+
+### Breaking changes
+
+Parse declarations following `export default` as declaration nodes, not expressions. This means that class and function declarations nodes can now have `null` as their `id`.
+
+## 4.0.11 (2017-02-07)
+
+### Bug fixes
+
+Allow all forms of member expressions to be parenthesized as lvalue.
+
+## 4.0.10 (2017-02-07)
+
+### Bug fixes
+
+Don't expect semicolons after default-exported functions or classes, even when they are expressions.
+
+Check for use of `'use strict'` directives in non-simple parameter functions, even when already in strict mode.
+
+## 4.0.9 (2017-02-06)
+
+### Bug fixes
+
+Fix incorrect error raised for parenthesized simple assignment targets, so that `(x) = 1` parses again.
+
+## 4.0.8 (2017-02-03)
+
+### Bug fixes
+
+Solve spurious parenthesized pattern errors by temporarily erring on the side of accepting programs that our delayed errors don't handle correctly yet.
+
+## 4.0.7 (2017-02-02)
+
+### Bug fixes
+
+Accept invalidly rejected code like `(x).y = 2` again.
+
+Don't raise an error when a function _inside_ strict code has a non-simple parameter list.
+
+## 4.0.6 (2017-02-02)
+
+### Bug fixes
+
+Fix exponential behavior (manifesting itself as a complete hang for even relatively small source files) introduced by the new 'use strict' check.
+
+## 4.0.5 (2017-02-02)
+
+### Bug fixes
+
+Disallow parenthesized pattern expressions.
+
+Allow keywords as export names.
+
+Don't allow the `async` keyword to be parenthesized.
+
+Properly raise an error when a keyword contains a character escape.
+
+Allow `"use strict"` to appear after other string literal expressions.
+
+Disallow labeled declarations.
+
+## 4.0.4 (2016-12-19)
+
+### Bug fixes
+
+Fix crash when `export` was followed by a keyword that can't be
+exported.
+
+## 4.0.3 (2016-08-16)
+
+### Bug fixes
+
+Allow regular function declarations inside single-statement `if` branches in loose mode. Forbid them entirely in strict mode.
+
+Properly parse properties named `async` in ES2017 mode.
+
+Fix bug where reserved words were broken in ES2017 mode.
+
+## 4.0.2 (2016-08-11)
+
+### Bug fixes
+
+Don't ignore period or 'e' characters after octal numbers.
+
+Fix broken parsing for call expressions in default parameter values of arrow functions.
+
+## 4.0.1 (2016-08-08)
+
+### Bug fixes
+
+Fix false positives in duplicated export name errors.
+
+## 4.0.0 (2016-08-07)
+
+### Breaking changes
+
+The default `ecmaVersion` option value is now 7.
+
+A number of internal method signatures changed, so plugins might need to be updated.
+
+### Bug fixes
+
+The parser now raises errors on duplicated export names.
+
+`arguments` and `eval` can now be used in shorthand properties.
+
+Duplicate parameter names in non-simple argument lists now always produce an error.
+
+### New features
+
+The `ecmaVersion` option now also accepts year-style version numbers
+(2015, etc).
+
+Support for `async`/`await` syntax when `ecmaVersion` is >= 8.
+
+Support for trailing commas in call expressions when `ecmaVersion` is >= 8.
+
+## 3.3.0 (2016-07-25)
+
+### Bug fixes
+
+Fix bug in tokenizing of regexp operator after a function declaration.
+
+Fix parser crash when parsing an array pattern with a hole.
+
+### New features
+
+Implement check against complex argument lists in functions that enable strict mode in ES7.
+
+## 3.2.0 (2016-06-07)
+
+### Bug fixes
+
+Improve handling of lack of unicode regexp support in host
+environment.
+
+Properly reject shorthand properties whose name is a keyword.
+
+### New features
+
+Visitors created with `visit.make` now have their base as _prototype_, rather than copying properties into a fresh object.
+
+## 3.1.0 (2016-04-18)
+
+### Bug fixes
+
+Properly tokenize the division operator directly after a function expression.
+
+Allow trailing comma in destructuring arrays.
+
+## 3.0.4 (2016-02-25)
+
+### Fixes
+
+Allow update expressions as left-hand-side of the ES7 exponential operator.
+
+## 3.0.2 (2016-02-10)
+
+### Fixes
+
+Fix bug that accidentally made `undefined` a reserved word when parsing ES7.
+
+## 3.0.0 (2016-02-10)
+
+### Breaking changes
+
+The default value of the `ecmaVersion` option is now 6 (used to be 5).
+
+Support for comprehension syntax (which was dropped from the draft spec) has been removed.
+
+### Fixes
+
+`let` and `yield` are now “contextual keywords”, meaning you can mostly use them as identifiers in ES5 non-strict code.
+
+A parenthesized class or function expression after `export default` is now parsed correctly.
+
+### New features
+
+When `ecmaVersion` is set to 7, Acorn will parse the exponentiation operator (`**`).
+
+The identifier character ranges are now based on Unicode 8.0.0.
+
+Plugins can now override the `raiseRecoverable` method to override the way non-critical errors are handled.
+
+## 2.7.0 (2016-01-04)
+
+### Fixes
+
+Stop allowing rest parameters in setters.
+
+Disallow `y` rexexp flag in ES5.
+
+Disallow `\00` and `\000` escapes in strict mode.
+
+Raise an error when an import name is a reserved word.
+
+## 2.6.2 (2015-11-10)
+
+### Fixes
+
+Don't crash when no options object is passed.
+
+## 2.6.0 (2015-11-09)
+
+### Fixes
+
+Add `await` as a reserved word in module sources.
+
+Disallow `yield` in a parameter default value for a generator.
+
+Forbid using a comma after a rest pattern in an array destructuring.
+
+### New features
+
+Support parsing stdin in command-line tool.
+
+## 2.5.0 (2015-10-27)
+
+### Fixes
+
+Fix tokenizer support in the command-line tool.
+
+Stop allowing `new.target` outside of functions.
+
+Remove legacy `guard` and `guardedHandler` properties from try nodes.
+
+Stop allowing multiple `__proto__` properties on an object literal in strict mode.
+
+Don't allow rest parameters to be non-identifier patterns.
+
+Check for duplicate paramter names in arrow functions.

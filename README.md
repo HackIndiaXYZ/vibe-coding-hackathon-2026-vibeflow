@@ -1,94 +1,64 @@
-# brace-expansion
+# Browserslist
 
-[Brace expansion](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html),
-as known from sh/bash, in JavaScript.
+<img width="120" height="120" alt="Browserslist logo by Anton Popov"
+     src="https://browsersl.ist/logo.svg" align="right">
 
-[![CI](https://github.com/juliangruber/brace-expansion/actions/workflows/ci.yml/badge.svg)](https://github.com/juliangruber/brace-expansion/actions/workflows/ci.yml)
-[![downloads](https://img.shields.io/npm/dm/brace-expansion.svg)](https://www.npmjs.org/package/brace-expansion)
+The config to share target browsers and Node.js versions between different
+front-end tools. It is used in:
 
-## Example
+- [Autoprefixer]
+- [Babel]
+- [postcss-preset-env]
+- [eslint-plugin-compat]
+- [stylelint-no-unsupported-browser-features]
+- [postcss-normalize]
+- [obsolete-webpack-plugin]
 
-```js
-import { expand } from 'brace-expansion'
+All tools will find target browsers automatically,
+when you add the following to `package.json`:
 
-expand('file-{a,b,c}.jpg')
-// => ['file-a.jpg', 'file-b.jpg', 'file-c.jpg']
-
-expand('-v{,,}')
-// => ['-v', '-v', '-v']
-
-expand('file{0..2}.jpg')
-// => ['file0.jpg', 'file1.jpg', 'file2.jpg']
-
-expand('file-{a..c}.jpg')
-// => ['file-a.jpg', 'file-b.jpg', 'file-c.jpg']
-
-expand('file{2..0}.jpg')
-// => ['file2.jpg', 'file1.jpg', 'file0.jpg']
-
-expand('file{0..4..2}.jpg')
-// => ['file0.jpg', 'file2.jpg', 'file4.jpg']
-
-expand('file-{a..e..2}.jpg')
-// => ['file-a.jpg', 'file-c.jpg', 'file-e.jpg']
-
-expand('file{00..10..5}.jpg')
-// => ['file00.jpg', 'file05.jpg', 'file10.jpg']
-
-expand('{{A..C},{a..c}}')
-// => ['A', 'B', 'C', 'a', 'b', 'c']
-
-expand('ppp{,config,oe{,conf}}')
-// => ['ppp', 'pppconfig', 'pppoe', 'pppoeconf']
+```json
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ]
 ```
 
-## API
+Or in `.browserslistrc` config:
 
-```js
-import { expand } from 'brace-expansion'
+```yaml
+# Browsers that we support
+
+defaults and fully supports es6-module
+maintained node versions
 ```
 
-### const expanded = expand(str, [options])
+Developers set their version lists using queries like `last 2 versions`
+to be free from updating versions manually.
+Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries.
 
-Return an array of all possible and valid expansions of `str`. If
-none are found, `[str]` is returned.
+You can check how config works at our playground: [`browsersl.ist`](https://browsersl.ist/)
 
-The `options` object can provide a `max` value to cap the number
-of expansions allowed. This is limited to `100_000` by default,
-to prevent DoS attacks.
+<a href="https://browsersl.ist/">
+  <img src="/img/screenshot.webp" alt="browsersl.ist website">
+</a>
 
-```js
-const expansions = expand('{1..100}'.repeat(5), {
-  max: 100,
-})
-// expansions.length will be 100, not 100^5
-```
+<br>
+<br>
+<div align="center">
+  <a href="https://evilmartians.com/?utm_source=browserslist"><img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>  <a href="https://cube.dev/?ref=eco-browserslist-github"><img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg" alt="Supported by Cube" width="227" height="46"></a>
+</div>
 
-Valid expansions are:
+[stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
+[obsolete-webpack-plugin]: https://github.com/ElemeFE/obsolete-webpack-plugin
+[eslint-plugin-compat]: https://github.com/amilajack/eslint-plugin-compat
+[postcss-preset-env]: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env
+[postcss-normalize]: https://github.com/csstools/postcss-normalize
+[`browsersl.ist`]: https://browsersl.ist/
+[`caniuse-lite`]: https://github.com/ben-eb/caniuse-lite
+[Autoprefixer]: https://github.com/postcss/autoprefixer
+[Can I Use]: https://caniuse.com/
+[Babel]: https://github.com/babel/babel/tree/master/packages/babel-preset-env
 
-```js
-;/^(.*,)+(.+)?$/
-// {a,b,...}
-```
-
-A comma separated list of options, like `{a,b}` or `{a,{b,c}}` or `{,a,}`.
-
-```js
-;/^-?\d+\.\.-?\d+(\.\.-?\d+)?$/
-// {x..y[..incr]}
-```
-
-A numeric sequence from `x` to `y` inclusive, with optional increment.
-If `x` or `y` start with a leading `0`, all the numbers will be padded
-to have equal length. Negative numbers and backwards iteration work too.
-
-```js
-;/^-?\d+\.\.-?\d+(\.\.-?\d+)?$/
-// {x..y[..incr]}
-```
-
-An alphabetic sequence from `x` to `y` inclusive, with optional increment.
-`x` and `y` must be exactly one character, and if given, `incr` must be a
-number.
-
-For compatibility reasons, the string `${` is not eligible for brace expansion.
+## Docs
+Read full docs **[here](https://github.com/browserslist/browserslist#readme)**.

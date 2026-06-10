@@ -1,4 +1,4 @@
-                                                🛡 CyberShield AI – Cyber Crime Legal Assistant
+ 🛡 CyberShield AI – Cyber Crime Legal Assistant
 
 🚀 Hackathon Project
 
